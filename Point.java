@@ -37,25 +37,41 @@ public class Point
 		this.x = x;
 	}
 	/**
-	调整竖直坐标.
-	@param y the new y
+	*调整竖直坐标.
+	*@param y the new y
 	*/
 	public void setY(int y)
 	{
 		this.y = y;
 	}
 	/**
-	设置路径上前一个迷宫块相对该迷宫块的方向.
-	@param parent the direction of the previous point<br>0 - up<br>1 - right<br>2 - bottom<br>3 - left
+	*设置路径上前一个迷宫块相对该迷宫块的方向.
+	*@param parent the direction of the previous point<br>0 - up<br>1 - right<br>2 - bottom<br>3 - left
 	*/
 	public void setParent(int parent)
 	{
 		this.parent = parent&3;
 	}
 	/**
-	返回指定方向上下一个地图块的横坐标.
-	@param direct 指定方向，含义见 @see setParent
-	@return 指定方向上下一个地图块的横坐标
+	*返回横坐标.
+	*@return x
+	*/
+	public int getX()
+	{
+		return x;
+	}
+	/**
+	*返回纵坐标.
+	*@return y
+	*/
+	public int getY()
+	{
+		return y;
+	}
+	/**
+	*返回指定方向上下一个地图块的横坐标.
+	*@param direct 指定方向，含义见 @see setParent
+	*@return 指定方向上下一个地图块的横坐标
 	*/
 	public int nextX(int direct)
 	{
