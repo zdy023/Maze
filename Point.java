@@ -3,8 +3,7 @@ package alls.algorithms.maze;
 /**
 <h1>class Point</h1>.
 <p>
-	地图的地形块。<br>
-	该类被设计为在运行时不可更改的类，故使用者应设法减少建立该类的实例数量。
+	地图的地形块。
 </p>
 @author david Chang
 */
@@ -25,7 +24,7 @@ public class Point
 	public Point()
 	{
 		this.x = 0;
-		this.y = :0;
+		this.y = 0;
 		this.parentDirect = -1;
 	}
 	/**
@@ -50,7 +49,7 @@ public class Point
 	*/
 	public void setParent(int parent)
 	{
-		this.parent = parent&3;
+		this.parentDirect = parent&3;
 	}
 	/**
 	*返回横坐标.
@@ -69,6 +68,15 @@ public class Point
 		return y;
 	}
 	/**
+	*返回点的坐标表示形式.
+	*表示为(x,y)。
+	*@return 点的字符串描述
+	*/
+	public String toString()
+	{
+		return "(" + x + "," + y + ")";
+	}
+	/**
 	*返回指定方向上下一个地图块的横坐标.
 	*@param direct 指定方向，含义见 @see setParent
 	*@return 指定方向上下一个地图块的横坐标
@@ -78,12 +86,13 @@ public class Point
 		switch(direct&3)
 		{
 			case 0:
-			case 3:
+			case 2:
 				return x;
 			case 1:
 				return x+1;
-			case 2: return x-1;
+			case 3: return x-1;
 		}
+		return x;
 	}
 	/**
 	返回指定方向上下一个地图块的纵坐标.
@@ -95,12 +104,13 @@ public class Point
 		switch(direct&3)
 		{
 			case 1:
-			case 2:
-				return y;
 			case 3:
+				return y;
+			case 2:
 				return y+1;
 			case 0: return y-1;
 		}
+		return y;
 	}
 	/*
 	获得地形.

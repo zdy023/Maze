@@ -2,11 +2,11 @@ package alls.algorithms.maze;
 /**
 标注地图某块的地形.
 */
-public Enum Landform
+public enum Landform
 {
 	PLAIN(true),TRAP(false),WALL(false),END(true);
 	private boolean safeOrNot;
-	public Landform(boolean safeOrNot)
+	Landform(boolean safeOrNot)
 	{
 		this.safeOrNot = safeOrNot;
 	}

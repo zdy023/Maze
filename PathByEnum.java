@@ -3,6 +3,7 @@ package alls.algorithms.maze;
 import alls.algorithms.maze.Landform;
 import alls.algorithms.maze.Point;
 import java.util.Arrays;
+import java.util.Scanner;
 /**
 *<h1>借用栈按深度优先搜索的方式搜索迷宫路径</h1>.
 *@author David Chang
@@ -38,7 +39,7 @@ public class PathByEnum
 	*@param parent the direction of the previous point on the path
 	*@return true - if the path is found
 	*/
-	private boolean findPath(int beginX,int beginY,int parent)
+	private boolean findPath(int beginX,int beginY,int parent,int iSt)
 	{
 		if(map[beginX][beginY]==Landform.END)
 		{
@@ -50,19 +51,34 @@ public class PathByEnum
 		push(beginX,beginY,parent);
 		boolean getPathOrNot = false;
 		int nextX,nextY;
-		for(int direct = parent+1,i = 1;i<4;direct++,i++)
+		//System.out.println("node 2: " + parent);
+		for(int direct = parent+1,i = iSt;i<4;direct++,i++)
 		{
+			int newD = direct&3;
+			//System.out.println("node 5: " + direct);
+			if((path[countOfPath-1].getX()==0)&&(newD==3))
+				continue;
+			if((path[countOfPath-1].getX()==map.length-1)&&(newD==1))
+				continue;
+			if((path[countOfPath-1].getY()==0)&&(newD==0))
+				continue;
+			if((path[countOfPath-1].getY()==map[0].length-1)&&(newD==2))
+				continue;
 			nextX = path[countOfPath-1].nextX(direct);
 			nextY = path[countOfPath-1].nextY(direct);
+			//System.out.println("node 1: " + direct + " " + path[countOfPath-1] + " " + "(" + nextX + "," + nextY + ")");
 			if(map[nextX][nextY].isSafe())
 			{
-				getPathOrNot = findPath(nextX,nextY,direct);
+				//System.out.println("node 4: " + getPathOrNot);
+				getPathOrNot = findPath(nextX,nextY,(direct+2)&3,1);
+				//System.out.println("node 6: " + getPathOrNot);
 			}
 			if(getPathOrNot)
 				break;
 		}
 		if(!getPathOrNot)
 			pop();
+		return getPathOrNot;
 	}
 	/**
 	*由指定起点搜寻路径.
@@ -72,7 +88,7 @@ public class PathByEnum
 	*/
 	public boolean findPath(int beginX,int beginY)
 	{
-		return this.findPath(beginX,beginY,-1);
+		return this.findPath(beginX,beginY,-1,0);
 	}
 	/**
 	*由构造该对象时指定的起点搜寻路径.
@@ -80,7 +96,7 @@ public class PathByEnum
 	*/
 	public boolean findPath()
 	{
-		return this.findPath(beginX,beginY,-1);
+		return this.findPath(beginX,beginY,-1,0);
 	}
 	/**
 	*将某一地图块压入路径栈.
@@ -123,5 +139,33 @@ public class PathByEnum
 	public Point[] getPath()
 	{
 		return Arrays.copyOf(this.path,countOfPath);
+	}
+	public static void main(String[] args)
+	{
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		Landform[][] map = new Landform[n][n];
+		for(int i = 0;i<n;i++)
+		{
+			for(int j = 0;j<n;j++)
+				map[j][i] = Landform.values()[s.nextInt()];
+		}
+		System.out.println();
+		for(int i = 0;i<n;i++)
+		{
+			for(int j = 0;j<n;j++)
+				System.out.print(map[j][i].isSafe() + " ");
+			System.out.println();
+		}
+		int x = s.nextInt(),y = s.nextInt();
+		PathByEnum maze = new PathByEnum(map,x,y);
+		if(maze.findPath())
+		{
+			Point[] path = maze.getPath();
+			//System.out.println("node 3");
+			for(int i = 0;i<path.length;i++)
+				System.out.print(path[i].toString() + " ");
+		}
+		System.out.println("Finished.");
 	}
 }
